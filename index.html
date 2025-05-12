@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text File Creator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Create Text File</h2>
+        <textarea id="content" placeholder="Enter your text or code here..."></textarea>
+        <input type="text" id="filename" placeholder="Enter file name (without extension)">
+        <select id="filetype">
+            <option value="txt">.txt</option>
+            <option value="lua">.lua</option>
+            <option value="py">.py</option>
+            <option value="js">.js</option>
+            <option value="html">.html</option>
+            <option value="css">.css</option>
+            <option value="json">.json</option>
+        </select>
+        <button onclick="createFile()">Create & Download</button>
+    </div>
+
+    <script>
+        function createFile() {
+            const content = document.getElementById('content').value;
+            const filename = document.getElementById('filename').value.trim();
+            const filetype = document.getElementById('filetype').value;
+            
+            if (!filename) {
+                alert('Please enter a file name.');
+                return;
+            }
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${filename}.${filetype}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
